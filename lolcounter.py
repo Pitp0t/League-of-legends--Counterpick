@@ -3,10 +3,16 @@ import requests
 
 
 
+# No acepta nombres compuestos... master yi --> master-yi
+
 
 print('Escribí el nombre del matchup separado por una coma:')
 champion = input('>')
 cadena = champion.lower().replace(' ','').replace('vs',',').split(',')
+
+
+
+# While loop hasta poner bien los datos
 
 while True:
     print('Escribí el rol: middle, top, bot, jg')
@@ -23,12 +29,14 @@ while True:
         print('Rol mal escrito pana')
     
 
-        
+# Web scraping https://www.counterstats.net/
 
 html_text = requests.get(f'https://www.counterstats.net/league-of-legends/{cadena[0]}/vs-{cadena[1]}/{rol}/all').text
 soup = BeautifulSoup(html_text, 'lxml')
 all_champ = soup.find_all('div', class_ ='fifth-col col')
 print('            ')
+
+# Los primeras dos no
 for stat in range(2, len(all_champ)):
     name = all_champ[stat].find('h3').text
     porcentajes = all_champ[stat].find_all('label')
